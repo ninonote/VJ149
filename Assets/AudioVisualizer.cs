@@ -31,18 +31,18 @@ public class AudioVisualizer : MonoBehaviour {
 		int count = 256;
 		lr.SetVertexCount(count);
 		for(int k=0; k<count; k++) {
-			lr.SetPosition(k, new Vector3(-200 + 400/count*k, 200 * data[k], 200));
+			lr.SetPosition(k, new Vector3(-256 + 2*k, 300 * data[k], 200));
 		}
 
 		var spectrum = audio.GetSpectrumData(1024, 0, FFTWindow.BlackmanHarris);
 		var i = 1;
-		while ( i < 1023 ) {
+		/*while ( i < 1023 ) {
 			Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red, 2, false);
 			Debug.DrawLine(new Vector3(i - 1, Mathf.Log(spectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(spectrum[i]) + 10, 2), Color.cyan);
 			Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);
 			Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.yellow);
 			i++;
-		}
+		}*/
 
 	}
 	
