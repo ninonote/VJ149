@@ -30,6 +30,7 @@ public class AudioVisualizer : MonoBehaviour {
 		audio.GetOutputData(data, 0);
 		int count = 256;
 		lr.SetVertexCount(count);
+
 		for(int k=0; k<count; k++) {
 			lr.SetPosition(k, new Vector3(-256 + 2*k, 300 * data[k], 200));
 		}
