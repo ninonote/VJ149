@@ -94,7 +94,7 @@ public class AudioWave3D : MonoBehaviour {
 		//float volume = GetAveragedVolume ();
 		//Debug.Log (volume);
 		//Debug.DrawLine (Vector3.zero, new Vector3 (1, 0, 0), Color.red);
-		float[] data = new float[256];
+		float[] data = new float[M];
 		audio.GetOutputData(data, 0);
 		lr.SetVertexCount(M);
 		
