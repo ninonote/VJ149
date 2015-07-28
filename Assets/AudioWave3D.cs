@@ -26,6 +26,7 @@ public class AudioWave3D : MonoBehaviour {
 		mesh = new Mesh ();
 		mesh.MarkDynamic (); //Call this when you continually update mesh vertices.
 		GetComponent<MeshFilter> ().sharedMesh = mesh;
+		//Application.targetFrameRate = 60;
 	}
 
 	// Use this for initialization
@@ -62,7 +63,7 @@ public class AudioWave3D : MonoBehaviour {
 		int index = 0;
 		for (var j=0; j<N-1; j++) {
 			for (var k=M*j; k<M*j+M-1; k++) {
-				Debug.Log (index);
+				//Debug.Log (index);
 				indices[index] = k;
 				indices[index+1] = k+1;
 				indices[index+2] = k+M;
