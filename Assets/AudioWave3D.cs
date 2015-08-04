@@ -32,6 +32,7 @@ public class AudioWave3D : MonoBehaviour {
 		meshcollider = GetComponent<MeshCollider> ();
 		//rigidb = GetComponent<Rigidbody> ();
 		Application.targetFrameRate = 30;
+		Application.runInBackground = true;
 	}
 
 	// Use this for initialization
