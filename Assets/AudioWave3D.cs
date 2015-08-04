@@ -15,12 +15,13 @@ public class AudioWave3D : MonoBehaviour {
 	MeshFilter meshfilter;
 	Mesh mesh;
 	MeshCollider meshcollider;
+	Rigidbody rigidb;
 	Vector3[] vertices;
 	
-	public int N = 500;
+	public int N = 100;
 	public int M = 256;
 	public Vector3[,] wavePositions;
-	public int dz = -1;
+	public int dz = -4;
 
 	void Awake ()
 	{
@@ -29,7 +30,8 @@ public class AudioWave3D : MonoBehaviour {
 		mesh.MarkDynamic (); //Call this when you continually update mesh vertices.
 		GetComponent<MeshFilter> ().sharedMesh = mesh;
 		meshcollider = GetComponent<MeshCollider> ();
-		//Application.targetFrameRate = 60;
+		//rigidb = GetComponent<Rigidbody> ();
+		Application.targetFrameRate = 30;
 	}
 
 	// Use this for initialization
@@ -52,7 +54,8 @@ public class AudioWave3D : MonoBehaviour {
 				wavePositions[j, k] = wavepos;
 				//lrs[j].SetPosition(k, new Vector3(-256 + 2*k, 0, 200 - 10*j));
 				vertices[vertexIndex] = wavepos;
-				normals[vertexIndex] = new Vector3(0, 1, 1);
+				normals[vertexIndex] = new Vector3(0, 0, -1);
+				//normals[vertexIndex] = Random.onUnitSphere*10;
 				vertexIndex++;
 			}
 		}
@@ -76,12 +79,14 @@ public class AudioWave3D : MonoBehaviour {
 				index += 6;
 			}
 		}
+		Debug.Log (index);
 		
 		// Initialize the mesh.
 		mesh.Clear ();
 		mesh.vertices = vertices;
 		mesh.normals = normals;
 		mesh.triangles = indices;
+		meshcollider.sharedMesh = mesh;
 	}
 	
 	// Update is called once per frame
@@ -132,6 +137,11 @@ public class AudioWave3D : MonoBehaviour {
 		for (var j=0; j<N-1; j++) {
 			for (var k=M*j; k<M*j+M-1; k++) {
 				//Debug.Log (index);
+				Vector3 a, b, c;
+				a = vertices[k];
+				b = vertices[k+1];
+				c = vertices[k+M];
+
 				indices[index] = k;
 				indices[index+1] = k+1;
 				indices[index+2] = k+M;
@@ -144,7 +154,8 @@ public class AudioWave3D : MonoBehaviour {
 
 		// Update the vertex array.
 		mesh.vertices = vertices;
-		meshcollider.sharedMesh = mesh;
+		mesh.RecalculateNormals();
+		//Debug.Log (mesh.normals [200]);
 
 		var spectrum = audio.GetSpectrumData(1024, 0, FFTWindow.BlackmanHarris);
 		var i = 1;
