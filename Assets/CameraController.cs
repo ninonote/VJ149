@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
 	void Start ()
 	{
 		Debug.Log ("Script has been started");
+		Debug.Log (Application.loadedLevelName);
 		plane = GameObject.FindWithTag ("Player");
 		
 		mCamera = new WebCamTexture ();
