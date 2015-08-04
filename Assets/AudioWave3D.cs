@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer))]
 [RequireComponent (typeof (AudioSource))]
+[RequireComponent (typeof (MeshCollider))]
 public class AudioWave3D : MonoBehaviour {
 	
 	private AudioSource audio;
@@ -13,6 +14,7 @@ public class AudioWave3D : MonoBehaviour {
 	// Mesh
 	MeshFilter meshfilter;
 	Mesh mesh;
+	MeshCollider meshcollider;
 	Vector3[] vertices;
 	
 	public int N = 500;
@@ -26,6 +28,7 @@ public class AudioWave3D : MonoBehaviour {
 		mesh = new Mesh ();
 		mesh.MarkDynamic (); //Call this when you continually update mesh vertices.
 		GetComponent<MeshFilter> ().sharedMesh = mesh;
+		meshcollider = GetComponent<MeshCollider> ();
 		//Application.targetFrameRate = 60;
 	}
 
@@ -49,7 +52,7 @@ public class AudioWave3D : MonoBehaviour {
 				wavePositions[j, k] = wavepos;
 				//lrs[j].SetPosition(k, new Vector3(-256 + 2*k, 0, 200 - 10*j));
 				vertices[vertexIndex] = wavepos;
-				normals[vertexIndex] = new Vector3(0, 1, 0);
+				normals[vertexIndex] = new Vector3(0, 1, 1);
 				vertexIndex++;
 			}
 		}
@@ -79,7 +82,6 @@ public class AudioWave3D : MonoBehaviour {
 		mesh.vertices = vertices;
 		mesh.normals = normals;
 		mesh.triangles = indices;
-		
 	}
 	
 	// Update is called once per frame
@@ -124,8 +126,25 @@ public class AudioWave3D : MonoBehaviour {
 		//Debug.Log (wavePositions[0, 128]);
 		//Debug.Log (wavePositions[10, 128]);
 
+		//calculate normals
+		/*
+		int index = 0;
+		for (var j=0; j<N-1; j++) {
+			for (var k=M*j; k<M*j+M-1; k++) {
+				//Debug.Log (index);
+				indices[index] = k;
+				indices[index+1] = k+1;
+				indices[index+2] = k+M;
+				indices[index+3] = k+1;
+				indices[index+4] = k+M;
+				indices[index+5] = k+M+1;
+				index += 6;
+			}
+		}*/
+
 		// Update the vertex array.
 		mesh.vertices = vertices;
+		meshcollider.sharedMesh = mesh;
 
 		var spectrum = audio.GetSpectrumData(1024, 0, FFTWindow.BlackmanHarris);
 		var i = 1;
@@ -136,7 +155,6 @@ public class AudioWave3D : MonoBehaviour {
 			Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.yellow);
 			i++;
 		}*/
-		
 	}
 	
 	float GetAveragedVolume()
