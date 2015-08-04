@@ -31,3 +31,6 @@ Thumbs.db
 # -------------[ Build ]------------------------ #
 *.html
 *.unity3d
+
+# -------------[ Purchased Library ] ----------- #
+Assets/TextMeshPro/
