@@ -7,14 +7,19 @@ public class AudioReceiver : MonoBehaviour {
 
 	private AudioSource audio;
 	private float[] waveData_ = new float[1024];
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		audio = GetComponent<AudioSource>();
 		audio.clip = Microphone.Start(null, true, 10, 44100);
 		audio.loop = true;
 		audio.mute = true;
 		while (Microphone.GetPosition(null) <= 0) {}
 		audio.Play();
+	}
+
+	void Start() {
+
 	}
 	
 	// Update is called once per frame
