@@ -281,6 +281,7 @@ MonoBehaviour:
   N: 100
   M: 256
   dz: -4
+  sensitivity: 300
 --- !u!120 &1259477857
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -556,14 +557,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1650686344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9c2cc71f03c945898675a1a1b63e885, type: 3}
+  m_Script: {fileID: 11500000, guid: 07df6674c17984b8fb3f457115b682f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customRenderTexture: {fileID: 0}
-  renderWidth: 1920
-  renderHeight: 1080
-  renderMe: 1
-  cameraInstance: {fileID: 0}
 --- !u!114 &1650686351
 MonoBehaviour:
   m_ObjectHideFlags: 0
