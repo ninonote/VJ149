@@ -25,6 +25,10 @@ public class AudioWave3D : MonoBehaviour {
 	public Vector3[,] wavePositions;
 	public int dz = -4;
 
+	// Camera
+	private Camera maincam;
+	private Vector3 camPosition;
+
 	void Awake ()
 	{
 		// Initialize the mesh instance.
@@ -35,6 +39,7 @@ public class AudioWave3D : MonoBehaviour {
 		//rigidb = GetComponent<Rigidbody> ();
 		Application.targetFrameRate = 30;
 		Application.runInBackground = true;
+		maincam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Camera>();
 	}
 
 	// Use this for initialization
@@ -125,7 +130,7 @@ public class AudioWave3D : MonoBehaviour {
 			//Debug.Log (j);
 			for (int k=0; k<M; k++) {
 				if (j==0) {
-					wavePositions[j, k] = new Vector3(-256 + 2*k, 300 * data[k], 500 +dz*j);
+					wavePositions[j, k] = new Vector3(-256 + 2*k, 300 * data[k], 500 + dz*j);
 				} else {
 					wavePositions[j, k] = wavePositions[j-1, k];
 					//wavePositions[j,k].y += 5*j;
@@ -175,6 +180,27 @@ public class AudioWave3D : MonoBehaviour {
 			Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.yellow);
 			i++;
 		}*/
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			Vector3 R = Random.onUnitSphere*316;
+			R.y = Mathf.Abs (R.y);
+			Vector3 center = new Vector3(0, 0, 300);
+			Debug.Log (R);
+			camPosition = center + R;
+			maincam.transform.position = camPosition;
+			//maincam.transform.LookAt(center);
+			//iTween.MoveTo(maincam.gameObject, camPosition, 1);
+			//iTween.LookTo(maincam.gameObject, center, 1);
+			//iTween.MoveTo(maincam.gameObject, iTween.Hash("x", camPosition.x, "y", camPosition.y, "z", camPosition.z, "time", 1.0f));
+			//maincam.transform.LookAt(center);
+			iTween.LookTo(maincam.gameObject, center, 1.0f);
+
+		}
+
+	}
+
+	private void CompleteHandler(string message) {
+		Debug.Log (message);
+		iTween.LookTo(maincam.gameObject, new Vector3(0, 0, 300), 1.0f);
 	}
 	
 	float GetAveragedVolume()
