@@ -5,11 +5,20 @@ using System.Collections;
 public class AudioVisualizer : MonoBehaviour {
 
 	private AudioSource audio;
+	AudioReceiver audioreceiver;
+	GameObject cube;
+
 	public LineRenderer lr;
 	// Use this for initialization
 	void Start () {
 		audio = GetComponent<AudioSource>();
+		audioreceiver = GetComponent<AudioReceiver>(); // Reference the audioreceiver script.
+		Debug.Log (audioreceiver.teststr);
+
 		lr = GetComponent<LineRenderer> ();
+
+		cube = GameObject.Find ("Cube");
+
 	}
 	
 	// Update is called once per frame
@@ -22,8 +31,9 @@ public class AudioVisualizer : MonoBehaviour {
 
 		Debug.Log (volume);*/
 		
-		float volume = GetAveragedVolume ();
-		Debug.Log (volume);
+		//float volume = GetAveragedVolume ();
+		Debug.Log (audioreceiver.loudness);
+		cube.transform.position = new Vector3 (0, audioreceiver.loudness * 5, 0);
 		//Debug.DrawLine (Vector3.zero, new Vector3 (1, 0, 0), Color.red);
 		float[] data = new float[256];
 		float a = 0;

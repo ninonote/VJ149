@@ -11,6 +11,7 @@ public class AudioReceiver : MonoBehaviour {
 
 	public float sensitivity = 100;
 	public float loudness = 0;
+	public float volume = 0;
 	private float lastLoudness = 0;
 	public string teststr = "hello dear";
 
@@ -32,7 +33,8 @@ public class AudioReceiver : MonoBehaviour {
 	void Update () {
 
 		lastLoudness = loudness;
-		loudness = lastLoudness * 0.8f + GetAveragedVolume() * sensitivity * 0.2f;
+		volume = GetAveragedVolume ();
+		loudness = lastLoudness * 0.8f + volume * sensitivity * 0.2f;
 		/*audio.GetOutputData(waveData_, 1);
 		Debug.Log (waveData_);
 
