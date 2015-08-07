@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer))]
-[RequireComponent (typeof (AudioSource))]
+[RequireComponent (typeof (AudioSource))] // Requires AudioReceiver.cs instead.
 [RequireComponent (typeof (MeshCollider))]
 public class AudioWave3D : MonoBehaviour {
 	
 	private AudioSource audio;
+	//AudioReceiver audioreceiver;
 	LineRenderer lr;
 	//public LineRenderer[] lrs;
 
@@ -17,7 +18,8 @@ public class AudioWave3D : MonoBehaviour {
 	MeshCollider meshcollider;
 	Rigidbody rigidb;
 	Vector3[] vertices;
-	
+
+
 	public int N = 100;
 	public int M = 256;
 	public Vector3[,] wavePositions;
@@ -37,7 +39,12 @@ public class AudioWave3D : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		//audioreceiver = GetComponent<AudioReceiver>(); // Reference the audioreceiver script.
+		//Debug.Log (audioreceiver.teststr);
+
 		audio = GetComponent<AudioSource>();
+
 		lr = GetComponent<LineRenderer> ();
 		// Initialize LineRenderers
 		//lrs = new LineRenderer[N];
@@ -92,6 +99,7 @@ public class AudioWave3D : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		/*audio.GetOutputData(waveData_, 1);
 		Debug.Log (waveData_);
 
