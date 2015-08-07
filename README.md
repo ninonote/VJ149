@@ -8,4 +8,4 @@ Shows a simple audio wave as a rendered line.
 Generates realtime audio waves in 3D.
 
 ## Live Camera
-Experimenting realtime filters to device captured images.
+Applies realtime filters to device captured images.
