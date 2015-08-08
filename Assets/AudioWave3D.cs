@@ -193,7 +193,7 @@ public class AudioWave3D : MonoBehaviour {
 	}
 
 	private void changeCamPosition() {
-		Vector3 R = Random.onUnitSphere*316;
+		Vector3 R = Random.onUnitSphere*300;
 		R.y = Mathf.Abs (R.y);
 		Vector3 center = new Vector3(0, 0, 300);
 		Debug.Log (R);
