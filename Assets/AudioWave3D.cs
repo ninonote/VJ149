@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer))]
 [RequireComponent (typeof (AudioSource))] // Requires AudioReceiver.cs instead.
 [RequireComponent (typeof (MeshCollider))]
-public class AudioWave3D : MonoBehaviour {
+public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	
 	private AudioSource audio;
 	//AudioReceiver audioreceiver;
@@ -29,6 +29,7 @@ public class AudioWave3D : MonoBehaviour {
 	// Camera
 	private Camera maincam;
 	private Vector3 camPosition;
+
 
 	void Awake ()
 	{
@@ -101,6 +102,11 @@ public class AudioWave3D : MonoBehaviour {
 		mesh.normals = normals;
 		mesh.triangles = indices;
 		meshcollider.sharedMesh = mesh;
+
+		//Select the instance of AudioProcessor and pass a reference
+		//to this object
+		AudioProcessor processor = FindObjectOfType<AudioProcessor>();
+		processor.addAudioCallback(this);
 	}
 	
 	// Update is called once per frame
@@ -192,6 +198,29 @@ public class AudioWave3D : MonoBehaviour {
 		iTween.LookTo(maincam.gameObject, new Vector3(0, 0, 300), 1.0f);
 	}
 
+	//this event will be called every time a beat is detected.
+	//Change the threshold parameter in the inspector
+	//to adjust the sensitivity
+	public void onOnbeatDetected()
+	{
+		Debug.Log("Beat!!!");
+		//changeCamPosition ();
+	}
+
+	//This event will be called every frame while music is playing
+	public void onSpectrum(float[] spectrum)
+	{
+		//The spectrum is logarithmically averaged
+		//to 12 bands
+		
+		for (int i = 0; i < spectrum.Length; ++i)
+		{
+			Vector3 start = new Vector3(i, 0, 0);
+			Vector3 end = new Vector3(i, spectrum[i], 0);
+			Debug.DrawLine(start, end);
+		}
+	}
+	
 	private void changeCamPosition() {
 		Vector3 R = Random.onUnitSphere*300;
 		R.y = Mathf.Abs (R.y);
@@ -204,7 +233,7 @@ public class AudioWave3D : MonoBehaviour {
 		//iTween.LookTo(maincam.gameObject, center, 1);
 		//iTween.MoveTo(maincam.gameObject, iTween.Hash("x", camPosition.x, "y", camPosition.y, "z", camPosition.z, "time", 1.0f));
 		//maincam.transform.LookAt(center);
-		iTween.LookTo(maincam.gameObject, center, 1.0f);
+		iTween.LookTo(maincam.gameObject, center, 0.3f);
 	}
 	
 	float GetAveragedVolume()
