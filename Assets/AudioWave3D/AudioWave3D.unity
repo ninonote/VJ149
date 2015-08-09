@@ -253,7 +253,6 @@ GameObject:
   - 33: {fileID: 1259477858}
   - 64: {fileID: 1259477860}
   - 114: {fileID: 1259477861}
-  - 114: {fileID: 1259477862}
   m_Layer: 0
   m_Name: AudiWaves
   m_TagString: Untagged
@@ -463,19 +462,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5c1cfc9e86842ac95e2966823c5152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1259477862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1259477852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c17d918940d41a18cf6016c794cbb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bufferSize: 1024
-  gThresh: 26
 --- !u!1 &1476386950
 GameObject:
   m_ObjectHideFlags: 0

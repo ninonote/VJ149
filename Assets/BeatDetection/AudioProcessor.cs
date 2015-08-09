@@ -217,7 +217,7 @@ public class AudioProcessor : MonoBehaviour
                     {
                         foreach (AudioCallbacks callback in callbacks)
                         {
-                            callback.onOnbeatDetected();
+                            callback.onBeatDetected();
                         }
                     }
                     blipDelay[0] = 1;
@@ -320,8 +320,8 @@ public class AudioProcessor : MonoBehaviour
 
     public void addAudioCallback(AudioCallbacks callback)
     {
+		Debug.Log(callback);
         this.callbacks.Add(callback);
-        //Debug.Log(callback);
     }
 
     public void removeAudioCallback(AudioCallbacks callback)
@@ -331,7 +331,7 @@ public class AudioProcessor : MonoBehaviour
 
     public interface AudioCallbacks
     {
-        void onOnbeatDetected();
+        void onBeatDetected();
         void onSpectrum(float[] spectrum);
     }
 

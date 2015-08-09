@@ -105,8 +105,9 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 
 		//Select the instance of AudioProcessor and pass a reference
 		//to this object
-		AudioProcessor processor = FindObjectOfType<AudioProcessor>();
-		processor.addAudioCallback(this);
+		//AudioProcessor processor = FindObjectOfType<AudioProcessor>();
+		//processor.addAudioCallback(this);
+
 	}
 	
 	// Update is called once per frame
@@ -201,7 +202,7 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	//this event will be called every time a beat is detected.
 	//Change the threshold parameter in the inspector
 	//to adjust the sensitivity
-	public void onOnbeatDetected()
+	public void onBeatDetected()
 	{
 		Debug.Log("Beat!!!");
 		//changeCamPosition ();
