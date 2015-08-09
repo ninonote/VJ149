@@ -4,6 +4,7 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof (AudioSource))]
 public class AudioSpectrum : MonoBehaviour
 {
 
@@ -98,7 +99,7 @@ public class AudioSpectrum : MonoBehaviour
         CheckBuffers ();
 
         //AudioListener.GetSpectrumData (rawSpectrum, 0, FFTWindow.BlackmanHarris);
-		audio.GetSpectrumData(rawSpectrum, 0, FFTWindow.BlackmanHarris);
+		audio.GetSpectrumData(rawSpectrum, 0, FFTWindow.BlackmanHarris); // Set spectrum raw data to rawSpectrum.
 
         float[] middlefrequencies = middleFrequenciesForBands [(int)bandType];
         var bandwidth = bandwidthForBands [(int)bandType];
