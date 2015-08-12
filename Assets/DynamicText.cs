@@ -7,7 +7,7 @@ public class DynamicText : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		textmesh = GetComponent<TextMesh>();
+		//textmesh = GetComponent<TextMesh>();
 		//textmesh.font;
 
 	}

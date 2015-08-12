@@ -32,8 +32,9 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	// Mesh type
 	//[SerializeField]
 	public enum WaveType {
-		triagles,
-		lines
+		triangles,
+		lines,
+		points
 	};
 	public WaveType wavetype = WaveType.lines;
 
@@ -111,18 +112,18 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		case WaveType.lines:
 			mesh.SetIndices(indices, MeshTopology.Lines, 0);
 			break;
-		case WaveType.triagles:
+		case WaveType.triangles:
 			mesh.triangles = indices;
 			meshcollider.sharedMesh = mesh;
+			break;
+		case WaveType.points:
+			mesh.SetIndices(indices, MeshTopology.Points, 0);
 			break;
 		}
 		//Select the instance of AudioProcessor and pass a reference
 		//to this object
 		//AudioProcessor processor = FindObjectOfType<AudioProcessor>();
 		//processor.addAudioCallback(this);
-		// 再度MeshTopologyの確認
-		//MeshTopology topo = meshfilter.mesh.GetTopology(0);
-		//Debug.Log(topo); // Lines と出力される
 
 	}
 	
@@ -171,7 +172,7 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		mesh.vertices = vertices;
 
 		// Recalculate normals for triangle mesh
-		if (wavetype == WaveType.triagles) {
+		if (wavetype == WaveType.triangles) {
 			mesh.RecalculateNormals();
 		}
 
