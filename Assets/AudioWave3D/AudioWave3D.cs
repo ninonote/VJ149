@@ -19,7 +19,6 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	Rigidbody rigidb;
 	Vector3[] vertices;
 
-
 	public int N = 100;
 	public int M = 256;
 	public Vector3[,] wavePositions;
@@ -36,7 +35,8 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		// Initialize the mesh instance.
 		mesh = new Mesh ();
 		mesh.MarkDynamic (); //Call this when you continually update mesh vertices.
-		GetComponent<MeshFilter> ().sharedMesh = mesh;
+		meshfilter = GetComponent<MeshFilter> ();
+		meshfilter.sharedMesh = mesh;
 		meshcollider = GetComponent<MeshCollider> ();
 		//rigidb = GetComponent<Rigidbody> ();
 		Application.targetFrameRate = 30;
@@ -100,13 +100,17 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		mesh.Clear ();
 		mesh.vertices = vertices;
 		mesh.normals = normals;
-		mesh.triangles = indices;
+		mesh.SetIndices(indices, MeshTopology.Lines, 0);
+		//mesh.triangles = indices;
 		meshcollider.sharedMesh = mesh;
 
 		//Select the instance of AudioProcessor and pass a reference
 		//to this object
 		//AudioProcessor processor = FindObjectOfType<AudioProcessor>();
 		//processor.addAudioCallback(this);
+		// 再度MeshTopologyの確認
+		//MeshTopology topo = meshfilter.mesh.GetTopology(0);
+		//Debug.Log(topo); // Lines と出力される
 
 	}
 	
@@ -125,14 +129,16 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		//Debug.Log (volume);
 		//Debug.DrawLine (Vector3.zero, new Vector3 (1, 0, 0), Color.red);
 		float[] data = new float[M];
-		audio.GetOutputData(data, 0);
 		lr.SetVertexCount(M);
+
+		// Audio data or Audo spectrum
+		audio.GetOutputData(data, 0);
+		//audio.GetSpectrumData(data, 0, FFTWindow.BlackmanHarris); 
 		
 		for(int k=0; k<M; k++) {
 			lr.SetPosition(k, new Vector3(-256 + 2*k, 300 * data[k], 500));
 		}
 		// 3D waves
-
 		int vertexIndex = 0;
 		for (int j=N-1; j>=0; j--) {
 			//Debug.Log (j);
@@ -143,40 +149,18 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 					wavePositions[j, k] = wavePositions[j-1, k];
 					//wavePositions[j,k].y += 5*j;
 					wavePositions[j, k].z = 500 + dz*j;
-					//lrs[j].SetPosition(k, wavePositions[j, k]);
 				}
 				vertices[vertexIndex] = wavePositions[j, k];
 				vertexIndex++;
-				//lrs[j].SetPosition(k, wavePositions[j, k]);
 			}
 		}
-		//Debug.Log (wavePositions[0, 128]);
-		//Debug.Log (wavePositions[10, 128]);
-
-		//calculate normals
-		/*
-		int index = 0;
-		for (var j=0; j<N-1; j++) {
-			for (var k=M*j; k<M*j+M-1; k++) {
-				//Debug.Log (index);
-				Vector3 a, b, c;
-				a = vertices[k];
-				b = vertices[k+1];
-				c = vertices[k+M];
-
-				indices[index] = k;
-				indices[index+1] = k+1;
-				indices[index+2] = k+M;
-				indices[index+3] = k+1;
-				indices[index+4] = k+M;
-				indices[index+5] = k+M+1;
-				index += 6;
-			}
-		}*/
 
 		// Update the vertex array.
 		mesh.vertices = vertices;
-		mesh.RecalculateNormals();
+
+		// Recalculate normals for triangle mesh
+		//mesh.RecalculateNormals();
+
 		//Debug.Log (mesh.normals [200]);
 
 		var spectrum = audio.GetSpectrumData(1024, 0, FFTWindow.BlackmanHarris);
