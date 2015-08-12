@@ -371,6 +371,7 @@ MonoBehaviour:
   M: 256
   dz: -4
   sensitivity: 100
+  wavetype: 0
 --- !u!120 &1259477857
 LineRenderer:
   m_ObjectHideFlags: 0

@@ -371,6 +371,7 @@ MonoBehaviour:
   M: 256
   dz: -4
   sensitivity: 300
+  wavetype: 1
 --- !u!120 &1259477857
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -399,8 +400,8 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
-    startWidth: 1
-    endWidth: 1
+    startWidth: 3
+    endWidth: 3
     m_StartColor:
       serializedVersion: 2
       rgba: 4283253503

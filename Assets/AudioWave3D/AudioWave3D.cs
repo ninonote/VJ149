@@ -21,7 +21,7 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 
 	public int N = 100;
 	public int M = 256;
-	public Vector3[,] wavePositions;
+	private Vector3[,] wavePositions;
 	public int dz = -4;
 	public int sensitivity = 300;
 
@@ -29,6 +29,13 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 	private Camera maincam;
 	private Vector3 camPosition;
 
+	// Mesh type
+	//[SerializeField]
+	public enum WaveType {
+		triagles,
+		lines
+	};
+	public WaveType wavetype = WaveType.lines;
 
 	void Awake ()
 	{
@@ -100,10 +107,15 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		mesh.Clear ();
 		mesh.vertices = vertices;
 		mesh.normals = normals;
-		mesh.SetIndices(indices, MeshTopology.Lines, 0);
-		//mesh.triangles = indices;
-		meshcollider.sharedMesh = mesh;
-
+		switch(wavetype) {
+		case WaveType.lines:
+			mesh.SetIndices(indices, MeshTopology.Lines, 0);
+			break;
+		case WaveType.triagles:
+			mesh.triangles = indices;
+			meshcollider.sharedMesh = mesh;
+			break;
+		}
 		//Select the instance of AudioProcessor and pass a reference
 		//to this object
 		//AudioProcessor processor = FindObjectOfType<AudioProcessor>();
@@ -159,13 +171,15 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		mesh.vertices = vertices;
 
 		// Recalculate normals for triangle mesh
-		//mesh.RecalculateNormals();
+		if (wavetype == WaveType.triagles) {
+			mesh.RecalculateNormals();
+		}
 
 		//Debug.Log (mesh.normals [200]);
 
-		var spectrum = audio.GetSpectrumData(1024, 0, FFTWindow.BlackmanHarris);
-		var i = 1;
-		/*while ( i < 1023 ) {
+		//var spectrum = audio.GetSpectrumData(1024, 0, FFTWindow.BlackmanHarris);
+		/*var i = 1;
+		while ( i < 1023 ) {
 			Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red, 2, false);
 			Debug.DrawLine(new Vector3(i - 1, Mathf.Log(spectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(spectrum[i]) + 10, 2), Color.cyan);
 			Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);

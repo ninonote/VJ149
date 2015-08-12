@@ -36,7 +36,6 @@ public class AudioVisualizer : MonoBehaviour {
 		cube.transform.position = new Vector3 (0, audioreceiver.loudness * 5, 0);
 		//Debug.DrawLine (Vector3.zero, new Vector3 (1, 0, 0), Color.red);
 		float[] data = new float[256];
-		float a = 0;
 		audio.GetOutputData(data, 0);
 		int count = 256;
 		lr.SetVertexCount(count);
