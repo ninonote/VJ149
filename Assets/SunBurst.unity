@@ -261,6 +261,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158812d7920b340208c1d28b2bce1109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sensitivity: 100
+  loudness: 0
+  volume: 0
+  teststr: hello dear
 --- !u!82 &1721115850
 AudioSource:
   m_ObjectHideFlags: 0

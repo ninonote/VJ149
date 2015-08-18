@@ -13,7 +13,7 @@ public class SceneNavigator : MonoBehaviour {
 		if (Input.GetKeyDown ("c")) {
 			Application.LoadLevel("LiveCamera");
 		} else if (Input.GetKeyDown ("w")) {
-			Application.LoadLevel ("AudioWave3D");
+			Application.LoadLevel ("AudioWave3DLines");
 		}
 	}
 }

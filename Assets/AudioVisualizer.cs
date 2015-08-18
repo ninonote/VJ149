@@ -44,9 +44,10 @@ public class AudioVisualizer : MonoBehaviour {
 			lr.SetPosition(k, new Vector3(-256 + 2*k, 300 * data[k], 200));
 		}
 
+		/*
 		var spectrum = audio.GetSpectrumData(1024, 0, FFTWindow.BlackmanHarris);
 		var i = 1;
-		/*while ( i < 1023 ) {
+		while ( i < 1023 ) {
 			Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red, 2, false);
 			Debug.DrawLine(new Vector3(i - 1, Mathf.Log(spectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(spectrum[i]) + 10, 2), Color.cyan);
 			Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);
@@ -55,16 +56,5 @@ public class AudioVisualizer : MonoBehaviour {
 		}*/
 
 	}
-	
-	float GetAveragedVolume()
-	{ 
-		float[] data = new float[256];
-		float a = 0;
-		audio.GetOutputData(data, 0);
-		foreach(float s in data)
-		{
-			a += Mathf.Abs(s);
-		}
-		return a/256;
-	}
+
 }
