@@ -190,7 +190,16 @@ public class AudioWave3D : MonoBehaviour, AudioProcessor.AudioCallbacks {
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			changeCamPosition();
 		}
-
+		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+			sensitivity += 50;
+			Debug.Log (sensitivity);
+		}
+		if (Input.GetKeyDown (KeyCode.DownArrow)) {
+			if (sensitivity > 49) {
+				sensitivity -= 50;
+				Debug.Log (sensitivity);
+			}
+		}
 	}
 
 	private void CompleteHandler(string message) {
