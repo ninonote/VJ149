@@ -34,6 +34,8 @@ public class AudioSunBurst : MonoBehaviour
 	#endregion
 
 	private AudioSource audio;
+	AudioReceiver audioreceiver;
+	MeshRenderer meshr;
 	
 	#region Private functions
 	void ResetBeams ()
@@ -61,6 +63,7 @@ public class AudioSunBurst : MonoBehaviour
 			normals [normalIndex++] = Vector3.Lerp (dir, normal, 0.5f).normalized;
 			normals [normalIndex++] = normal;
 			normals [normalIndex++] = normal;
+
 		}
 		
 		// Initialize the triangle set.
@@ -74,24 +77,20 @@ public class AudioSunBurst : MonoBehaviour
 		mesh.vertices = vertices;
 		mesh.normals = normals;
 		mesh.triangles = indices;
+
 	}
 	
 	void UpdateVertices ()
 	{
-		var range = 1024;
-		var spectrum = audio.GetSpectrumData(range, 0, FFTWindow.BlackmanHarris);
-		//while ( j < 1023 ) {
-		for (var i = 1; i < range-1; i++) {
-			Debug.DrawLine(new Vector3(i - 1, spectrum[i] + 10, 0), new Vector3(i, spectrum[i + 1] + 10, 0), Color.red, 2, false);
-			Debug.DrawLine(new Vector3(i - 1, Mathf.Log(spectrum[i - 1]) + 10, 2), new Vector3(i, Mathf.Log(spectrum[i]) + 10, 2), Color.cyan);
-			Debug.DrawLine(new Vector3(Mathf.Log(i - 1), spectrum[i - 1] - 10, 1), new Vector3(Mathf.Log(i), spectrum[i] - 10, 1), Color.green);
-			Debug.DrawLine(new Vector3(Mathf.Log(i - 1), Mathf.Log(spectrum[i - 1]), 3), new Vector3(Mathf.Log(i), Mathf.Log(spectrum[i]), 3), Color.yellow);
-		}
 
 		var vertexIndex = 0;
 		for (var i = 0; i < beamCount; i++) {
 			// Use 2D Perlin noise to animate the beam.
-			var scale = Mathf.Pow (Mathf.PerlinNoise (time, i * indexToNoise), scalePower);
+			//var scale = Mathf.Pow (Mathf.PerlinNoise (time, i * indexToNoise), scalePower)*audioreceiver.loudness;;
+			//var scale = 1.0f + audioreceiver.volume*Mathf.PerlinNoise(time, i*indexToNoise)*3;
+			var scale = 1.0f;
+			beamWidth = audioreceiver.loudness*0.1f;
+			//audioreceiver.loudness
 			
 			// Never modify the first vertex.
 			vertexIndex++;
@@ -102,6 +101,7 @@ public class AudioSunBurst : MonoBehaviour
 			vertices [vertexIndex++] = tip - ext; 
 			//vertices [vertexIndex++] = tip + ext;
 			vertices [vertexIndex++] = tip + ext;
+
 		}
 	}
 	#endregion
@@ -113,7 +113,10 @@ public class AudioSunBurst : MonoBehaviour
 		mesh = new Mesh ();
 		mesh.MarkDynamic (); //Call this when you continually update mesh vertices.
 		GetComponent<MeshFilter> ().sharedMesh = mesh;
-		
+
+		meshr = GetComponent<MeshRenderer> ();
+		//meshr.material.SetColor ("_LineColor", new Color(Random.value, Random.value, Random.value,1));
+
 		// Initialize the beam array.
 		ResetBeams ();
 
@@ -122,6 +125,7 @@ public class AudioSunBurst : MonoBehaviour
 	void Start() 
 	{
 		audio = GetComponent<AudioSource>();
+		audioreceiver = GetComponent<AudioReceiver>(); // Reference the audioreceiver script.
 	}
 	
 	void Update ()
@@ -136,9 +140,18 @@ public class AudioSunBurst : MonoBehaviour
 		
 		// Update the vertex array.
 		mesh.vertices = vertices;
+
+		gameObject.transform.Rotate (Vector3.up * Time.deltaTime * 40, Space.World);
 		
 		// Advance the time count.
 		time += Time.deltaTime * speed;
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			iTween.ColorTo (gameObject, iTween.Hash("time", 3.0f, "NamedColorValue", "_Color", "easeType", "easeInOutQuad", "color", new Color(Random.value, Random.value, Random.value,1)));
+			//meshr.material.SetColor ("_Color", new Color(Random.value, Random.value, Random.value,1));
+			Debug.Log ("color change");
+		}
+
 	}
 	#endregion
 }

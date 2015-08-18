@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: testMaterial
-  m_Shader: {fileID: 4800000, guid: d108eba9ecdeb46f792af2b371d71658, type: 3}
+  m_Shader: {fileID: 4800000, guid: f5ed508d6d93f49e2ab8d6adf317f7c0, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
@@ -147,7 +147,7 @@ Material:
       data:
         first:
           name: _LineColor
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 1, g: 1, b: 1, a: .784313738}
       data:
         first:
           name: _GridColor
